@@ -1,56 +1,16 @@
-document.addEventListener('DOMContentLoaded', function() {setBkg()}, false);
+document.addEventListener('DOMContentLoaded', function() {setBkg(), fullScreenEndpoint()}, false);
 window.setInterval(function(){setBkg()}, 10000);  // call all 10 seconds
 document.onkeydown = function(e){_checkKey(e.keyCode)};
 
 var inLightMode = false;
 
-
-/**
- * Get API pic data.
- * @function _getArchiData
- * @returns Dict[str, str]
- */
-async function _getArchiData(){
-    const url='https://archi.trash-economy.io/getTV';
-    let resp = await fetch(url);
-    let data = await resp.json()
-    return data;
-}
-
-
-/**
- * Set the background property for the children of div.#bkg.
- * @function setBkg
- */
-async function setBkg(){
-    const bkgElemRoot = document.getElementById('bkg');
-    let bkg = bkgElemRoot.firstElementChild;
-    let fg = bkgElemRoot.children[1];
-
-    let kaka = await _getArchiData();
-    bkg.style.backgroundImage = "url("+kaka['screenbg']+")";
-    fg.style.backgroundImage = "url("+kaka['screenfg']+")";
-    setTimeout(function(){
-        bkg.style.backgroundImage = "url("+kaka['buffer']+")";
-        fg.style.backgroundImage = "url("+kaka['buffer']+")";
-    }, 5000);  // read from the buffer every 5 seconds/half the time; save API calls
-
-}
-
-/**
- * Checks which key was pressed and calls according function.
- * [SPACE] = toggle between relax mode light and fullscreen
- * @function _checkKey
- * @param keyCode Keyboard Code
- */
-function _checkKey(keyCode){
-    if(keyCode == 32){
-        _toggleBox();
-        _toggleBkg();
-        if(_checkFullscreen && !inLightMode) _toggleFullscreen();
-    }
-}
-
+// ..######...##........#######..########.....###....##......
+// .##....##..##.......##.....##.##.....##...##.##...##......
+// .##........##.......##.....##.##.....##..##...##..##......
+// .##...####.##.......##.....##.########..##.....##.##......
+// .##....##..##.......##.....##.##.....##.#########.##......
+// .##....##..##.......##.....##.##.....##.##.....##.##......
+// ..######...########..#######..########..##.....##.########
 
 /**
  * Chill out.
@@ -66,14 +26,69 @@ function relaxMode(goFullscreen){
 
 
 /**
+ * Set the background property for the children of div.#bkg.
+ * @function setBkg
+ */
+async function setBkg(){
+    const bkgElemRoot = document.getElementById('bkg');
+    let bkg = bkgElemRoot.firstElementChild;
+    let fg = bkgElemRoot.children[1];
+
+    let data = await _getArchiData();
+    bkg.style.backgroundImage = "url("+data['screenbg']+")";
+    fg.style.backgroundImage = "url("+data['screenfg']+")";
+    setTimeout(function(){
+        bkg.style.backgroundImage = "url("+data['buffer']+")";
+        fg.style.backgroundImage = "url("+data['buffer']+")";
+    }, 5000);  // read from the buffer every 5 seconds/half the time; save API calls
+}
+
+
+/**
+ * Start in fullscreen.
+ * Just put ?fullscreen as query parameter.
+ * @function fullScreenEndpoint
+ */
+function fullScreenEndpoint(){
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    if(urlParams.get('fullscreen') != null){
+        relaxMode(false);
+    }
+}
+
+
+// .##.....##.########.##.......########..########.########.
+// .##.....##.##.......##.......##.....##.##.......##.....##
+// .##.....##.##.......##.......##.....##.##.......##.....##
+// .#########.######...##.......########..######...########.
+// .##.....##.##.......##.......##........##.......##...##..
+// .##.....##.##.......##.......##........##.......##....##.
+// .##.....##.########.########.##........########.##.....##
+
+/**
+ * Get API pic data.
+ * @function _getArchiData
+ * @returns Dict[str, str]
+ */
+async function _getArchiData(){
+    const url='https://archi.trash-economy.io/getTV';
+    let resp = await fetch(url);
+    let data = await resp.json()
+    return data;
+}
+
+
+/**
  * Toggle visibility of the box.
  * @function _toggleBox
  */
 function _toggleBox(){
     let box = document.getElementById('box-root');
 
-    if(box.style.display == 'block')box.style.display = 'none';
-    else box.style.display = 'block';
+    if(box.style.visibility == 'visible')box.style.visibility = 'hidden', box.style.opacity = 0, box.style.fontSize = 0;
+    else box.style.visibility = 'visible', box.style.opacity = 1, box.style.fontSize = 'initial';
 }
 
 
@@ -97,16 +112,6 @@ function _toggleBkg(){
 
 
 /**
- * Check if page is fullscreen.
- * @function _checkFullscreen
- */
-function _checkFullscreen(){
-    let isFullscreen = document.webkitIsFullScreen || document.mozFullScreen || false;
-    return isFullscreen ? true : false;
-}
-
-
-/**
  * Toggle fullscreen.
  * @function _toggleFullscreen
  */
@@ -116,6 +121,31 @@ function _toggleFullscreen(){
     webRoot.requestFullScreen = webRoot.requestFullScreen || webRoot.webkitRequestFullScreen || webRoot.mozRequestFullScreen || document.msRequestFullscreen || function () { return false; };
     document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || document.msExitFullscreen || function () { return false; };
     _checkFullscreen() ? document.cancelFullScreen() : webRoot.requestFullScreen();
+}
+
+
+/**
+ * Checks which key was pressed and calls according function.
+ * [SPACE] = toggle between relax mode light and fullscreen
+ * @function _checkKey
+ * @param keyCode Keyboard Code
+ */
+function _checkKey(keyCode){
+    if(keyCode == 32){
+        _toggleBox();
+        _toggleBkg();
+        if(_checkFullscreen && !inLightMode) _toggleFullscreen();
+    }
+}
+
+
+/**
+ * Check if page is fullscreen.
+ * @function _checkFullscreen
+ */
+function _checkFullscreen(){
+    let isFullscreen = document.webkitIsFullScreen || document.mozFullScreen || false;
+    return isFullscreen ? true : false;
 }
 
 
