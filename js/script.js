@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {setBkg(), fullScreenEndpoint()}, false);
+document.addEventListener('DOMContentLoaded', function() {setBkg(), fullScreenEndpoint(), _onMobile()}, false);
 window.setInterval(function(){setBkg()}, 10000);  // call all 10 seconds
 document.onkeydown = function(e){_checkKey(e.keyCode)};
 
@@ -21,6 +21,7 @@ function relaxMode(goFullscreen){
     this.inLightMode = true;
     _toggleBkg();
     _toggleBox();
+    _toggleMarkedElements();
     if(goFullscreen) _toggleFullscreen(), this.inLightMode = false;
 }
 
@@ -37,12 +38,22 @@ async function setBkg(){
     let data = await _getArchiData();
     bkg.style.backgroundImage = "url("+data['screenbg']+")";
     fg.style.backgroundImage = "url("+data['screenfg']+")";
+    setId(data['gifid']);
     setTimeout(function(){
         bkg.style.backgroundImage = "url("+data['buffer']+")";
         fg.style.backgroundImage = "url("+data['buffer']+")";
+        setId(data['gifid_buffer']);
     }, 5000);  // read from the buffer every 5 seconds/half the time; save API calls
 }
 
+
+function setId(id){
+    let gifId = document.getElementById('gif_id');
+    let gifLink = gifId.children[0];
+
+    gifLink.text = '#'+id;
+    gifLink.href = 'https://archillect.com/'+id;
+}
 
 /**
  * Start in fullscreen.
@@ -124,6 +135,24 @@ function _toggleFullscreen(){
 }
 
 
+function _toggleMarkedElements(){
+    let markedElements = document.getElementsByClassName('toggle');
+
+    [].forEach.call(markedElements, function(element){
+        let direction = element.getAttribute('tt_direction');
+        let value = element.getAttribute('tt_value');
+
+        if(element.style.visibility == ''){
+            element.style[direction] = value;
+            element.style.visibility = 'hidden';
+        }else{
+            element.style.removeProperty('visibility');
+            element.style.removeProperty(direction);
+        }
+    });
+}
+
+
 /**
  * Checks which key was pressed and calls according function.
  * [SPACE] = toggle between relax mode light and fullscreen
@@ -131,10 +160,11 @@ function _toggleFullscreen(){
  * @param keyCode Keyboard Code
  */
 function _checkKey(keyCode){
-    if(keyCode == 32){
+    if(keyCode == 32 && !_onMobile()){
         _toggleBox();
         _toggleBkg();
-        if(_checkFullscreen && !inLightMode) _toggleFullscreen();
+        _toggleMarkedElements();
+        if(_checkFullscreen() && !inLightMode) _toggleFullscreen();
     }
 }
 
@@ -150,7 +180,7 @@ function _checkFullscreen(){
 
 
 /**
- * Check what browser is used.
+ * Check what browser is being used.
  * @function _checkBrowser
  * @return str
  */
@@ -173,4 +203,17 @@ function _checkBrowser(){
         case isEdgeChromium: return 'edgeCHROME';
         default: return 'unknown';
     }
+}
+
+
+/**
+ * Check if smartphone device is being used.
+ * @function _onMobile
+ * @return bool
+ */
+function _onMobile(){
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        return true;
+    }
+    return false;
 }
