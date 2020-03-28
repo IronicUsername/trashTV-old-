@@ -4,7 +4,7 @@
     <meta name="theme-color" content="#000" />
     <link href="./css/style.css" rel="stylesheet"/>
     <script src="./js/script.js"></script>
-    <script src="./js/soundcloud/main.js"></script>
+    <!-- <script src="./js/soundcloud/main.js"></script> -->
 </head>
 <body>
     <div id="bkg">
@@ -12,12 +12,10 @@
         <div id="fg" src=""></div>
     </div>
     <div>
-        <div id="box-root">
+        <div id="box-root" style="display:block;">
             <h1>hi.</h1>
-            <!-- <a onclick="relaxMode(this)">fuck off now.</a> -->
-            <a onclick="relaxMode(this, false)" title="REMOVE TEXT">go relax mode <i>light</i>.</a>
-            <a onclick="relaxMode(this, true)" title="FULLSCREEN">go <b>FULL</b> relax mode.</a>
-            <a onclick="relaxMode(this, true, true)" title="REMOVE TEXT">silence.</a>
+            <a onclick="relaxMode(false)" title="REMOVE TEXT">go relax mode <i>light</i>.</a>
+            <a onclick="relaxMode(true)" title="FULLSCREEN">go <b>FULL</b> relax mode.</a>
             <a>instructions.</a>
             <a>about.</a>
         </div>
