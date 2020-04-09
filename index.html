@@ -1,29 +1,33 @@
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="theme-color" content="#000" />
-    <link href="./css/style.css" rel="stylesheet"/>
-    <script src="./js/script.js"></script>
-    <!-- <script src="./js/soundcloud/main.js"></script> -->
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#000" />
+  <title>trashTV</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./MDE_World_Peace.png">
+  <link href="./css/style.css" rel="stylesheet"/>
+  <script src="./js/script.js"></script>
+  <script src="./js/spotify/script.js"></script>
+  <!-- <script src="https://sdk.scdn.co/spotify-player.js"></script> -->
+  <!-- <script src="./js/soundcloud/main.js"></script> -->
 </head>
 <body>
-    <div id="bkg">
-        <div id="bg"></div>
-        <div id="fg"></div>
+  <div id="bkg">
+    <div id="bg"></div>
+    <div id="fg"></div>
+  </div>
+  <div>
+    <div id="box-root" style="visibility:visible;opacity: 1; font-size: initial;">
+      <h1>hi.</h1>
+      <a onclick="relaxMode(false)" title="REMOVE TEXT">go relax mode <i>light</i>.</a>
+      <a onclick="relaxMode(true)" title="FULLSCREEN">go <b>FULL</b> relax mode.</a>
     </div>
-    <div>
-        <div id="box-root" style="visibility:visible;opacity: 1; font-size: initial;">
-            <h1>hi.</h1>
-            <a onclick="relaxMode(false)" title="REMOVE TEXT">go relax mode <i>light</i>.</a>
-            <a onclick="relaxMode(true)" title="FULLSCREEN">go <b>FULL</b> relax mode.</a>
-        </div>
+  </div>
+  <div id="nfo-root" class="toggle" tt_direction="bottom" tt_value="-100px">
+    <div id="gif_id" class='gif_data'><a hrer="" target="_blank"></a></div>
+    <div id='nfo'>
+      <a>instructions.</a>
+      <a>about.</a>
+      <a>imprint.</a>
     </div>
-    <div id="nfo-root" class="toggle" tt_direction="bottom" tt_value="-100px">
-        <div id="gif_id" class='gif_data'><a hrer="" target="_blank"></a></div>
-        <div id='nfo'>
-            <a>instructions.</a>
-            <a>about.</a>
-            <a>imprint.</a>
-        </div>
-    </div>
+  </div>
 </body>

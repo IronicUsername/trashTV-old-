@@ -111,13 +111,18 @@ function _toggleBkg(){
     let bkgRoot = document.getElementById('bkg');
     let bkgWidth = bkgRoot.style.width;
     let bkgHeight = bkgRoot.style.height;
+    let bg = bkgRoot.children[0];
 
     if((bkgWidth != '100%') && (bkgHeight != '100%')){
         bkgRoot.style.width = '100%';
         bkgRoot.style.height = '100%';
+        bg.style.visibility = 'visible';
+        bg.style.opacity = '1';
     }else{
         bkgRoot.style.removeProperty('width');
         bkgRoot.style.removeProperty('height');
+        bg.style.removeProperty('visibility');
+        bg.style.removeProperty('opacity');
     }
 }
 
@@ -160,7 +165,7 @@ function _toggleMarkedElements(){
  * @param keyCode Keyboard Code
  */
 function _checkKey(keyCode){
-    if(keyCode == 32 && !_onMobile()){
+    if(((keyCode == 32) || (keyCode == 27)) && !_onMobile()){
         _toggleBox();
         _toggleBkg();
         _toggleMarkedElements();
