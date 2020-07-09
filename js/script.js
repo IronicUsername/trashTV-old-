@@ -185,12 +185,12 @@ function _checkKey(keyCode){
             }
             if(_checkFullscreen() && !inLightMode) _toggleFullscreen();
             break;
-        case 75:
-            getMediaSrc();
-            break;
-        case 76:
-            getMediaLink();
-            break;
+            case 76:
+                getMediaLink();
+                break;
+            case 83:
+                getMediaSrc();
+                break;
         default:
             console.debug(keyCode);
             break;
