@@ -73,6 +73,11 @@ function getMediaLink(){
     document.getElementById('gif_id_opener').click();
 }
 
+async function getMediaSrc(){
+    let src = document.getElementById('fg').style.backgroundImage.slice(4, -1).replace(/"/g, "");
+    window.open(src, '_blank').focus();
+}
+
 
 // .##.....##.########.##.......########..########.########.
 // .##.....##.##.......##.......##.....##.##.......##.....##
@@ -170,13 +175,25 @@ function _toggleMarkedElements(){
  * @param keyCode Keyboard Code
  */
 function _checkKey(keyCode){
-    if(((keyCode == 32) || (keyCode == 27)) && !_onMobile()){
-        _toggleBox();
-        _toggleBkg();
-        _toggleMarkedElements();
-        if(_checkFullscreen() && !inLightMode) _toggleFullscreen();
-    }else if(keyCode == 76){
-        getMediaLink();
+    switch(keyCode){
+        case 27:
+        case 32:
+            if(!_onMobile()){
+                _toggleBox();
+                _toggleBkg();
+                _toggleMarkedElements();
+            }
+            if(_checkFullscreen() && !inLightMode) _toggleFullscreen();
+            break;
+        case 75:
+            getMediaSrc();
+            break;
+        case 76:
+            getMediaLink();
+            break;
+        default:
+            console.debug(keyCode);
+            break;
     }
 }
 
