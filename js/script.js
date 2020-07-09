@@ -69,6 +69,10 @@ function fullScreenEndpoint(){
     }
 }
 
+function getMediaLink(){
+    document.getElementById('gif_id_opener').click();
+}
+
 
 // .##.....##.########.##.......########..########.########.
 // .##.....##.##.......##.......##.....##.##.......##.....##
@@ -161,6 +165,7 @@ function _toggleMarkedElements(){
 /**
  * Checks which key was pressed and calls according function.
  * [SPACE] = toggle between relax mode light and fullscreen
+ * [L] = open current gif in new tab
  * @function _checkKey
  * @param keyCode Keyboard Code
  */
@@ -170,6 +175,8 @@ function _checkKey(keyCode){
         _toggleBkg();
         _toggleMarkedElements();
         if(_checkFullscreen() && !inLightMode) _toggleFullscreen();
+    }else if(keyCode == 76){
+        getMediaLink();
     }
 }
 
