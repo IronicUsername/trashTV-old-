@@ -75,7 +75,7 @@ function getMediaLink(){
 
 async function getMediaSrc(){
     let src = document.getElementById('fg').style.backgroundImage.slice(4, -1).replace(/"/g, "");
-    window.open(src, '_blank').focus();
+    window.open(src, '_blank');
 }
 
 
